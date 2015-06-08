@@ -17,19 +17,17 @@ struct data
 int main()
 {
 
-//    int number;
-//    cout << "Enter the number of data: " << endl;
-//    cin >> number;
+   int number;
+   cout << "Enter the number of data: " << endl;
+   cin >> number;
 
     vector <int> a;
+    int x;
+    for (int i = 0 ; i < number; i++){
+        cin >> x;
+        a.push_back(x);
+    }
 
-    a.push_back(2);
-    a.push_back(2);
-    a.push_back(3);
-    a.push_back(4);
-
-
-    data * my_data = new data[a.size()];
 
     int minVal =  *min_element(a.begin(), a.end());
     int maxVal =  *max_element(a.begin(), a.end());
@@ -39,6 +37,8 @@ int main()
 
     cout << "Enter number of classes: " << endl;
     cin >> classNumber;
+
+    data * my_data = new data[classNumber];
 
     interVal = (double) (maxVal - minVal) / classNumber;
 
@@ -63,10 +63,12 @@ int main()
     }
 
 
-    //Printing grouped data with frequency
+    // grouped data with frequency
 
     for (int i = 0 ; i < a.size(); i++){
+
         for (int j = 0; j < classNumber; j++){
+
             if (a[i] >= my_data[j].lowerValue && a[i] <= my_data[j].upperValue){
                 my_data[j].frequency++;
             }
