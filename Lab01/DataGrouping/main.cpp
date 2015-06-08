@@ -19,7 +19,7 @@ struct dataOperationResults
     double arithmatic_mean;
     double geometric_mean;
     double harmonic_mean;
-    double mode;
+    vector <double> mode;
 
     vector <double> median;
 };
