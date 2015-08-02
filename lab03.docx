@@ -1,0 +1,307 @@
+Solution of Equations (i),(ii)  & (iii) using Cramer’s Rule:
+	       /*  
+	       Manash Kumar Mandal  
+	       1203043  
+	    */    
+	        
+	    #include <iostream>    
+	    #include <math.h>    
+	        
+	    #define MAX 3    
+	        
+	    //Using classes under standard namespace    
+	    using std::cout;    
+	    using std::cin;    
+	    using std::endl;    
+	        
+	    //Calculate Determinant of a 3x3 Matrix    
+	    double determinant(double b[MAX][MAX], int m)    
+	    {    
+	     double sum = 0, c[MAX][MAX];    
+	     int i, j;    
+	     if(m==2)    
+	      {    
+	        sum = b[0][0]*b[1][1] - b[0][1]*b[1][0];    
+	        return sum;    
+	      }    
+	     for(int p=0 ;p<m ;p++)    
+	     {    
+	      int h = 0, k = 0;    
+	      for(i=1; i<m ;i++)    
+	      {    
+	        for( j=0; j<m ;j++)    
+	        {    
+	         if(j==p)    
+	          continue;    
+	         c[h][k] = b[i][j];    
+	         k++;    
+	         if(k == m-1)    
+	          {    
+	             h++;    
+	             k = 0;    
+	          }    
+	        
+	        }    
+	      }    
+	        
+	      sum = sum + b[0][p]*pow(-1,p)*determinant(c,m-1);    
+	     }    
+	     return sum;    
+	    }    
+	        
+	    int main(void)    
+	    {    
+	        double matrix[MAX][4];    
+	        double t[MAX][MAX];    
+	        
+	        double Dx, Dy, Dz;    
+	        
+	        char co_efficient[] = {'a', 'b', 'c', 'd'};    
+	        char co_efficient_number[] = {'1', '2', '3'};    
+	        
+	        for (int row; row < 3; row++){    
+	            for(int col; col < 4; col++){    
+	                cout << "Enter value for " << co_efficient[col] << co_efficient_number[row] << " : ";    
+	                cin >> matrix[row][col];    
+	            }    
+	            col = 0;    
+	            cout << endl << endl;    
+	            cout << "--------" << endl;    
+	        }    
+	        
+	        double a1 = matrix[0][0];    
+	        double b1 = matrix[0][1];    
+	        double c1 = matrix[0][2];    
+	        double d1 = matrix[0][3];    
+	        double a2 = matrix[1][0];    
+	        double b2 = matrix[1][1];    
+	        double c2 = matrix[1][2];    
+	        double d2 = matrix[1][3];    
+	        double a3 = matrix[2][0];    
+	        double b3 = matrix[2][1];    
+	        double c3 = matrix[2][2];    
+	        double d3 = matrix[2][3];    
+	        
+	        for (int i = 0; i < 3; i++){    
+	            for (int j = 0; j < 3; j++){    
+	                t[i][j] = matrix[i][j];    
+	            }    
+	        }    
+	        
+	       double D = determinant(t, MAX);    
+	        
+	       double X[3][3] = {{d1, b1, c1},{d2, b2, c2},{d3, b3, c3}};    
+	       double Y[3][3] = {{a1, d1, c1},{a2, d2, c2},{a3, d3, c3}};    
+	       double Z[3][3] = {{a1, b1, d1},{a2, b2, d2},{a3, b3, d3}};    
+	        
+	        Dx = determinant(X, MAX);    
+	        Dy = determinant(Y, MAX);    
+	        Dz = determinant(Z, MAX);    
+	        
+	        cout << "Solution: " << endl;    
+	        cout << "x: " << Dx / D << endl    
+	             << "y: " << Dy / D << endl    
+	             << "z: " << Dz / D << endl;    
+	        
+	}  
+Output:
+Enter value for a1 : 6
+Enter value for b1 : -2
+Enter value for c1 : 0
+Enter value for d1 : 50
+
+--------
+Enter value for a2 : -2
+Enter value for b2 : 11
+Enter value for c2 : -4
+Enter value for d2 : -70
+--------
+Enter value for a3 : 0
+Enter value for b3 : -4
+Enter value for c3 : 17
+Enter value for d3 : -60
+--------
+Solution:
+x: 5.93946
+y: -7.18163
+z: -5.219207
+
+Solution of Equations (i),(ii)  and (iii) using Gauss Elimination Method:
+	/* 
+	 * Manash Kumar Mandal 
+	 * 1203043 
+	 * */  
+	  
+	#include <stdio.h>  
+	#include <iostream>  
+	  
+	using std::cout;  
+	using std::cin;  
+	using std::endl;  
+	  
+	  
+	int main()  
+	{  
+	    int i,j,k,n;  
+	    float A[20][20], c, x[10], sum=0.0;  
+	  
+	    cout << "\nEnter the order of matrix: ";  
+	    cin >> n;  
+	  
+	    for(i=1; i<=n; i++)  
+	    {  
+	        for(j=1; j<=(n+1); j++)  
+	        {  
+	            printf("A[%d][%d] : ", i,j);  
+	            scanf("%f",&A[i][j]);  
+	        }  
+	    }  
+	    for(j=1; j<=n; j++) /* loop for the generation of upper triangular matrix*/  
+	    {  
+	        for(i=1; i<=n; i++)  
+	        {  
+	            if(i>j)  
+	            {  
+	                c=A[i][j]/A[j][j];  
+	                for(k=1; k<=n+1; k++)  
+	                {  
+	                    A[i][k]=A[i][k]-c*A[j][k];  
+	                }  
+	            }  
+	        }  
+	    }  
+	  
+	    x[n]=A[n][n+1]/A[n][n];  
+	  
+	    /* this loop is for backward substitution*/  
+	    for(i=n-1; i>=1; i--)  
+	    {  
+	        sum=0;  
+	        for(j=i+1; j<=n; j++)  
+	        {  
+	            sum=sum+A[i][j]*x[j];  
+	        }  
+	        x[i]=(A[i][n+1]-sum)/A[i][i];  
+	    }  
+	  
+	    cout << endl << "The solution is: " << endl;  
+	  
+	    for(i=1; i<=n; i++)  
+	    {  
+	        printf("\nx%d=%f\t",i,x[i]); /* x1, x2, x3 are the required solutions*/  
+	    }  
+	    return(0);  
+	}  
+Output:
+
+Enter the order of matrix: 3
+A[1][1] : 6
+A[1][2] : -2
+A[1][3] : 0
+A[1][4] : 50
+A[2][1] : -2
+A[2][2] : 11
+A[2][3] : -4
+A[2][4] : -70
+A[3][1] : 0
+A[3][2] : -4
+A[3][3] : 17
+A[3][4] : -60
+
+The solution is:
+
+x1=5.939457
+x2=-7.181629
+x3=-5.219207    Press <RETURN> to close this window...
+
+Solution of Equations (iv)  and (v)using Gauss-Seidel Method:
+	/* Manash Kumar Mandal 
+	 * 1203043 
+	 *  
+	 * */  
+	  
+	#include <iostream>  
+	#include <stdio.h>  
+	  
+	#define MAX_SIZE 10  
+	  
+	using std::cout;  
+	using std::cin;  
+	using std::endl;  
+	  
+	int main(void)  
+	  
+	{  
+	    float a[MAX_SIZE][MAX_SIZE], b[MAX_SIZE], x[MAX_SIZE], y[MAX_SIZE];  
+	    int n = 0, m = 0, i = 0, j = 0;  
+	    cout << "Enter order of the Matrix : ";  
+	    cin >> n;  
+	    for (i = 0; i < n; i++)  
+	    {  
+	        for (j = 0; j < n; j++)  
+	        {  
+	            cout << "Enter values no :(" << i << ", " << j << ") ";  
+	            cin >> a[i][j];  
+	        }  
+	    }  
+	  
+	    cout << endl << "Enter Values to the right side of equation" << endl;  
+	    for (i = 0; i < n; i++)  
+	    {  
+	        cout << "Enter values no :(" << i << ", " << j << ") ";  
+	        cin >> b[i];  
+	    }  
+	  
+	    cout << "Enter initial values of x" << endl;  
+	    for (i = 0; i < n; i++)  
+	    {  
+	        cout << "Enter values no. :(" << i<<"):";  
+	        cin >> x[i];  
+	    }  
+	    cout << endl << "Enter the no. of iteration : ";  
+	    cin >> m;  
+	    while (m > 0)  
+	    {  
+	        for (i = 0; i < n; i++)  
+	        {  
+	            y[i] = (b[i] / a[i][i]);  
+	            for (j = 0; j < n; j++)  
+	            {  
+	                if (j == i)  
+	                   continue;  
+	                y[i] = y[i] - ((a[i][j] / a[i][i]) * x[j]);  
+	                x[i] = y[i];  
+	            }  
+	            printf("x%d = %f    ", i + 1, y[i]);  
+	        }  
+	        cout << "\n";  
+	        m--;  
+	    }  
+	    return (0);  
+	}  
+
+
+
+
+Output:
+
+Enter the order of the matrix : 2
+Enter values no :(0, 0) 3
+Enter values no :(0, 1) -1
+Enter values no :(1, 0) -1
+Enter values no :(1, 1) 2.5
+
+Enter Values to the right side of equation
+Enter values no :(0, 2) 5
+Enter values no :(1, 2) -20
+Enter initial values of x
+Enter values no. :(0):1
+Enter values no. :(1):-5
+
+Enter the no. of iteration : 5
+x1 = -0.000000    x2 = -8.000000
+x1 = -1.000000    x2 = -8.400000
+x1 = -1.133333    x2 = -8.453333
+x1 = -1.151111    x2 = -8.460444
+x1 = -1.153481    x2 = -8.461392
+Press <RETURN> to close this window...
