@@ -2,8 +2,8 @@
 
 ## Frameworks and Libraries
 
-* Qt Framework
-* QCustomPlot Library
+* [Qt Framework](http://www.qt.io/)
+* [QCustomPlot Library](http://www.qcustomplot.com/)
 
 # Output
 
